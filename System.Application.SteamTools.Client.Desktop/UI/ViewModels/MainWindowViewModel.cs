@@ -40,7 +40,9 @@ namespace System.Application.UI.ViewModels
         public GameRelatedPageViewModel GameRelatedPage { get; }
         public OtherPlatformPageViewModel OtherPlatformPage { get; }
 
-        public IReadOnlyList<TabItemViewModel> TabItems { get; set; }
+        public IList<TabItemViewModel> TabItems { get; set; }
+
+
 
 #pragma warning disable CS8618 // SelectedItem不会为null
         public MainWindowViewModel() : base()
@@ -65,17 +67,17 @@ namespace System.Application.UI.ViewModels
                 AboutPageViewModel.Instance,
 //#if DEBUG
 				new DebugPageViewModel().AddTo(this),
-                new DebugWebViewPageViewModel().AddTo(this),
+
 //#endif
 				#endregion
             };
 
-//#if DEBUG
-//            if (AppHelper.Current.IsCefInitComplete)
-//            {
-//                TabItems.Add(new DebugWebViewPageViewModel().AddTo(this));
-//            }
-//#endif
+            //#if DEBUG
+            if (AppHelper.Current.IsCefInitComplete)
+            {
+                TabItems.Add(new DebugWebViewPageViewModel().AddTo(this));
+            }
+            //#endif
 
             this.SelectedItem = this.TabItems.First();
 

@@ -1,13 +1,9 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <Border Padding="20" Background="Green" >
+        <Border Padding="20" Background="Green" Width="50">
             <StackPanel Spacing="5">
-                <Image Width="50">
-                    <Image.Source>
-                        <DrawingImage Drawing="{DynamicResource CloseDrawing}"></DrawingImage>
-                    </Image.Source>
-                </Image>
+                <DrawingPresenter Drawing="{DynamicResource CloseDrawing}"></DrawingPresenter>
             </StackPanel>
         </Border>
     </Design.PreviewWith>

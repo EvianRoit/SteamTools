@@ -24,49 +24,6 @@ namespace System.Application.UI.ViewModels
             protected set { throw new NotImplementedException(); }
         }
 
-        private IList<MenuItemViewModel> _MenuItems = new[]
-    {
-        new MenuItemViewModel
-        {
-            Header = "_File",
-            Items = new[]
-            {
-                new MenuItemViewModel { Header = "_Open...",IconKey="CloseDrawing" },
-                new MenuItemViewModel { Header = "Save" },
-                new MenuItemViewModel { Header = "-" },
-                new MenuItemViewModel
-                {
-                    Header = "Recent",
-                    Items = new[]
-                    {
-                        new MenuItemViewModel
-                        {
-                            Header = "File1.txt",
-                        },
-                        new MenuItemViewModel
-                        {
-                            Header = "File2.txt",
-                        },
-                    }
-                },
-            }
-        },
-        new MenuItemViewModel
-        {
-            Header = "_Edit",
-            Items = new[]
-            {
-                new MenuItemViewModel { Header = "_Copy" },
-                new MenuItemViewModel { Header = "_Paste" },
-            }
-        }
-    };
-        public override IList<MenuItemViewModel> MenuItems
-        {
-            get => _MenuItems;
-            set => this.RaiseAndSetIfChanged(ref _MenuItems, value);
-        }
-
         /// <summary>
         /// steam记住的用户列表
         /// </summary>
@@ -81,12 +38,6 @@ namespace System.Application.UI.ViewModels
         {
             SteamUsers = new ObservableCollection<SteamUser>(steamService.GetRememberUserList());
 
-            if (!SteamUsers.Any_Nullable())
-            {
-                //Toast.Show("");
-                return;
-            }
-
 #if DEBUG
             for (var i = 0; i < 10; i++)
             {
@@ -94,6 +45,11 @@ namespace System.Application.UI.ViewModels
             }
 #endif
 
+            if (!SteamUsers.Any_Nullable())
+            {
+                //Toast.Show("");
+                return;
+            }
             var users = SteamUsers.ToArray();
             for (var i = 0; i < SteamUsers.Count; i++)
             {
@@ -114,6 +70,7 @@ namespace System.Application.UI.ViewModels
             SteamUsers = new ObservableCollection<SteamUser>(users.OrderByDescending(o => o.RememberPassword).ThenByDescending(o => o.LastLoginTime).ToList());
         }
 
+
         public void SteamId_Click(SteamUser user)
         {
             if (user.WantsOfflineMode)
@@ -124,6 +81,7 @@ namespace System.Application.UI.ViewModels
             steamService.TryKillSteamProcess();
             steamService.StartSteam(SteamSettings.SteamStratParameter.Value);
         }
+
 
         public void OfflineModeButton_Click(SteamUser user)
         {
@@ -143,7 +101,7 @@ namespace System.Application.UI.ViewModels
 
         public void DeleteUserButton_Click(SteamUser user)
         {
-            var result = MessageBoxCompat.ShowAsync(@AppResources.UserChange_DeleteUserTip, ThisAssembly.AssemblyTrademark, MessageBoxButtonCompat.OKCancel).ContinueWith(s =>
+            var result = MessageBoxCompat.ShowAsync("确定要删除这条本地记录帐户数据吗？" + Environment.NewLine + "这将会删除此账户在本地的Steam缓存数据。", ThisAssembly.AssemblyTrademark, MessageBoxButtonCompat.OKCancel).ContinueWith(s =>
             {
                 if (s.Result == MessageBoxResultCompat.OK)
                 {

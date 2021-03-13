@@ -12,6 +12,8 @@ namespace System.Application.Converters
 {
     public class BitmapAssetValueConverter : IValueConverter
     {
+        public static BitmapAssetValueConverter Instance = new BitmapAssetValueConverter();
+
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)

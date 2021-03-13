@@ -264,11 +264,6 @@ namespace System.Application.UI
             set => mMainWindow = value;
         }
 
-        public new AvaloniaApplication CurrentApp
-        {
-            get => AvaloniaApplication.Current;
-        }
-
         /// <summary>
         /// Restores the app's main window by setting its <c>WindowState</c> to
         /// <c>WindowState.Normal</c> and showing the window.
